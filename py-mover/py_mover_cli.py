@@ -32,12 +32,14 @@ def py_mover():
         print("Creating folder at " + jpeg_dir_path)
         os.makedirs(jpeg_dir_path)
 
-    for file in os.listdir(source_dir_path):
-        file_format = file.split(".")[1].upper()
-        if file_format == raw_format:
-            shutil.move(source_dir_path+"/"+file, raw_format_path)
-        elif file_format == "JPEG" or file_format == "JPG":
-            shutil.move(source_dir_path+"/"+file, jpeg_dir_path)
+    try:
+        for file in os.listdir(source_dir_path):
+            if file.upper().endswith(raw_format):
+                shutil.move(source_dir_path+"/"+file, raw_format_path)
+            elif file.upper().endswith("JPG"):
+                shutil.move(source_dir_path+"/"+file, jpeg_dir_path)
+    except Exception as e:
+        print(e, file=sys.stderr)
 
     print("Done")
 
